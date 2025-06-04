@@ -1,18 +1,18 @@
 spring:
+  datasource:
+    url: jdbc:postgresql://dpg-d107r7jipnbc738k3qp0-a.frankfurt-postgres.render.com:5432/kursova1_3ibf
+    username: kursova1_3ibf_user
+    password: AIVKiCytw6AaceMO3B3E4y0ijCYIqKVx
+    driver-class-name: org.postgresql.Driver
+
   jpa:
-    database: POSTGRESQL
+    database: postgresql
     show-sql: true
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-
-  datasource:
-    url: jdbc:postgresql://dpg-d107r7jipnbc738k3qp0-a.frankfurt-postgres.render.com:5432/kursova1_3ibf
-    username: kursova1_3ibf_user
-    password: AIVKiCytw6AaceMO3B3E4y0ijCYIqKVx
-    driverClassName: org.postgresql.Driver
 
   sql:
     init:
@@ -29,6 +29,15 @@ spring:
               - openid
               - profile
               - email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+
+server:
+  port: 8080
 
 jwt:
   secret: kF8h4XzQ9b7Nc2LmRpT0eSvYw3ArUJz5VnXy6GtHqEaMdBi1CoLz8WuKrJ9YsTbC

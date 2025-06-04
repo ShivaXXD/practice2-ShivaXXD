@@ -10,6 +10,6 @@ public class TestController {
 
     @GetMapping
     public String secureEndpoint() {
-        return "✅ Ви успішно отримали доступ з JWT токеном!";
+        return "Ви успішно отримали доступ!";
     }
 }
