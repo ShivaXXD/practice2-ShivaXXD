@@ -1,5 +1,6 @@
 package ua.opnu.practice1_template.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,13 +51,16 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/oauth2/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/oauth2/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(user -> user
-                                .userService(customOAuth2UserService())
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) ->
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
                         )
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(user -> user.userService(customOAuth2UserService()))
                 )
                 .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 
