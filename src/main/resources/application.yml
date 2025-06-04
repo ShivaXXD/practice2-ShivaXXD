@@ -7,13 +7,28 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
   datasource:
-    url: jdbc:postgresql://dpg-d02v9i6uk2gs73est9rg-a/kursova1 # Додайте власний HOST та базу даних
-    username: sys # додайте власний логін
-    password: NPki30PejcGmEdoxPXrtbFsfPmduGr9G # додайте власний пароль
+    url: jdbc:postgresql://dpg-d107r7jipnbc738k3qp0-a.frankfurt-postgres.render.com:5432/kursova1_3ibf
+    username: kursova1_3ibf_user
+    password: AIVKiCytw6AaceMO3B3E4y0ijCYIqKVx
     driverClassName: org.postgresql.Driver
+
   sql:
     init:
       platform: postgres
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 842364813660-k1k156sv01p2b24uuf94n3q800qn6h06.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - openid
+              - profile
+              - email
 
+jwt:
+  secret: kF8h4XzQ9b7Nc2LmRpT0eSvYw3ArUJz5VnXy6GtHqEaMdBi1CoLz8WuKrJ9YsTbC
