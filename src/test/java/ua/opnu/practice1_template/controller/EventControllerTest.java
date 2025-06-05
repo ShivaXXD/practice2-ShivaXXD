@@ -10,11 +10,12 @@ import ua.opnu.practice1_template.model.Event;
 import ua.opnu.practice1_template.service.EventService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 public class EventControllerTest {
 
@@ -43,11 +44,11 @@ public class EventControllerTest {
     @Test
     void testCreateEvent() throws Exception {
         Event event = new Event();
-        event.setName("Test Event");
+        event.setName("Sample Event");
 
         Event saved = new Event();
         saved.setId(1L);
-        saved.setName("Test Event");
+        event.setName("Sample Event");
 
         when(eventService.createEvent(any(Event.class))).thenReturn(saved);
 
@@ -67,12 +68,51 @@ public class EventControllerTest {
     }
 
     @Test
-    void testGetEventsByDate() throws Exception {
-        when(eventService.getEventsByDate(any(LocalDate.class))).thenReturn(List.of(new Event()));
+    void testGetEventsByRoom() throws Exception {
+        when(eventService.getEventsByRoomId(5L)).thenReturn(List.of(new Event()));
 
-        mockMvc.perform(get("/api/events/by-date")
-                        .param("date", "2025-06-01"))
+        mockMvc.perform(get("/api/events/room/5"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testGetEventsByOrganizer() throws Exception {
+        when(eventService.getEventsByOrganizerId(3L)).thenReturn(List.of(new Event()));
+
+        mockMvc.perform(get("/api/events/organizer/3"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testGetEventsByDateTime() throws Exception {
+        String datetime = "2025-06-05T12:00:00";
+        when(eventService.getEventsByDate(LocalDateTime.parse(datetime))).thenReturn(List.of(new Event()));
+
+        mockMvc.perform(get("/api/events/date").param("dateTime", datetime))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testGetEventsByDate() throws Exception {
+        String date = "2025-06-05";
+        when(eventService.getEventsByDate(LocalDate.parse(date))).thenReturn(List.of(new Event()));
+
+        mockMvc.perform(get("/api/events/by-date").param("date", date))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testUpdateEvent() throws Exception {
+        Event updated = new Event();
+        updated.setId(1L);
+        updated.setName("Updated");
+
+        when(eventService.updateEvent(eq(1L), any(Event.class))).thenReturn(updated);
+
+        mockMvc.perform(put("/api/events/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updated)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1));
+                .andExpect(jsonPath("$.name").value("Updated"));
     }
 }
