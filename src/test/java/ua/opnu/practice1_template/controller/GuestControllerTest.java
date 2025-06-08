@@ -25,7 +25,6 @@ public class GuestControllerTest {
     void setUp() {
         guestService = mock(GuestService.class);
         GuestController guestController = new GuestController();
-        // Вставляємо сервіс у контролер
         org.springframework.test.util.ReflectionTestUtils.setField(guestController, "guestService", guestService);
         mockMvc = MockMvcBuilders.standaloneSetup(guestController).build();
         objectMapper = new ObjectMapper();

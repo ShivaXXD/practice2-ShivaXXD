@@ -28,7 +28,6 @@ class RoomServiceTest {
 
         roomService = new RoomService();
 
-        // Вставляємо мок-залежності в приватні поля
         ReflectionTestUtils.setField(roomService, "roomRepository", roomRepository);
         ReflectionTestUtils.setField(roomService, "eventRepository", eventRepository);
     }

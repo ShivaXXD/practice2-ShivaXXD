@@ -19,11 +19,10 @@ public class JWTService {
     @Value("${jwt.secret}")
     private String secret;
 
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24; // 24 години
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24;
 
     @PostConstruct
     public void init() {
-        // Якщо потрібно — можна логнути або підготувати секрет
     }
 
     public String generateToken(UserDetails userDetails) {
